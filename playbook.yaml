@@ -1,0 +1,16 @@
+---
+- name: Installing vim on different servers
+  hosts: all
+  become: true
+  tasks: 
+    - name: Install vim using apt
+      when: ansible_os_family == "Debian"
+      ansible.builtin.apt:
+        name: vim
+        state: present
+
+    - name: Install vim using dnf
+      when: ansible_os_family == "RedHat"
+      ansible.builtin.dnf:
+        name: vim
+        state: present 
