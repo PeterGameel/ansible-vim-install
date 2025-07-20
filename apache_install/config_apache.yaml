@@ -1,0 +1,28 @@
+- name: Configure Apache Web Server
+  hosts: all
+  become: true
+  vars:
+    package_name: apache2
+  tasks:
+    - name: Install apache web server
+      when: ansible_distribution == "Ubuntu"
+      ansible.builtin.apt: 
+        name: apache2
+    - name: Ensure port is changed to 8080
+      ansible.builtin.replace:
+         path: /etc/apache2/ports.conf
+         regexp: '^Listen 80$'
+         replace: 'Listen 8080'
+
+    - name: Ensuring that apache is running 
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
+
+
+    ## to do configure the apache to listen in port 8080
+    ## and restart the apache
+    ## use repalce module to replace the port
+
+    
+
